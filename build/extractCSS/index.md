@@ -1,28 +1,7 @@
-# 优化文件
+## extractCSS
 
-<b><details><summary>nuxt.congfig  optimization</summary></b>
-## 官方 [optimization](https://zh.nuxtjs.org/api/configuration-build/#optimization)
-默认:
-{
-  minimize: true,
-  minimizer: [
-    // terser-webpack-plugin
-    // optimize-css-assets-webpack-plugin
-  ],
-  splitChunks: {
-    chunks: 'all',
-    automaticNameDelimiter: '.',
-    name: undefined,
-    cacheGroups: {}
-  }
-}
-在开发或分析模式下，splitChunks.name的默认值为true。 You can set minimizer to a customized Array of plugins or set minimize to false to disable all minimizers. 您可以将minimizer设置为自定义插件，或将minim设置为false以禁用所有minimize。(默认在开发环境情况下，minimize被禁用)。
-
-[webpack](https://webpack.js.org/configuration/optimization/)
-</details>
-
-<b><details><summary>extractCSS</summary></b>
 使用[extract-css-chunks-webpack-plugin](https://zh.nuxtjs.org/api/configuration-build/#extractcss)将主块中的 CSS 提取到一个单独的 CSS 文件中（自动注入模板），该文件允许单独缓存文件。当有很多共用 CSS 时建议使用此方法，异步组件中的 CSS 将保持内联为JavaScript字符串并由vue-style-loader处理。
+
 
 [css管理](https://ssr.vuejs.org/zh/guide/css.html#%E5%90%AF%E7%94%A8-css-%E6%8F%90%E5%8F%96)
 
@@ -49,13 +28,18 @@
 #启用 CSS 提取
 要从 *.vue 文件中提取 CSS，可以使用 vue-loader 的 extractCSS 选项（需要 vue-loader 12.0.0+）
 
+```javascript
 // webpack.config.js
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
+```
 
+```javascript
 // CSS 提取应该只用于生产环境
 // 这样我们在开发过程中仍然可以热重载
 const isProduction = process.env.NODE_ENV === 'production'
+```
 
+```javascript
 module.exports = {
   // ...
   module: {
@@ -76,10 +60,13 @@ module.exports = {
     ? [new ExtractTextPlugin({ filename: 'common.[chunkhash].css' })]
     : []
 }
+```
+
 请注意，上述配置仅适用于 *.vue 文件中的样式，然而你也可以使用 `<style src="./foo.css">` 将外部 CSS 导入 Vue 组件。
 
 如果你想从 JavaScript 中导入 CSS，例如，import 'foo.css'，你需要配置合适的 loader：
 
+```javascript
 module.exports = {
   // ...
   module: {
@@ -98,6 +85,8 @@ module.exports = {
   },
   // ...
 }
+```
+
 #从依赖模块导入样式
 从 NPM 依赖模块导入 CSS 时需要注意的几点：
 
@@ -105,6 +94,7 @@ module.exports = {
 
 在使用 CSS 提取 + 使用 CommonsChunkPlugin 插件提取 vendor 时，如果提取的 CSS 位于提取的 vendor chunk 之中，extract-text-webpack-plugin 会遇到问题。为了解决这个问题，请避免在 vendor chunk 中包含 CSS 文件。客户端 webpack 配置示例如下：
 
+```javascript
 module.exports = {
   // ...
   plugins: [
@@ -128,81 +118,5 @@ module.exports = {
     // ...
   ]
 }
+```
 </details>
-
-</details>
-
-
-
-<details>
-<summary>说明</summary>
-nuxt.js框架默认使用过了一套配置，但是看了编译出来的源码后发现css文件全部在源码里，感觉不是很利于收缩引擎的SEO，所以自定义了打包配置，代码如下：
-  optimization: {
-    runtimeChunk: {
-      name: 'manifest'
-    },
-    splitChunks: {
-      chunks: 'all',
-      cacheGroups: {
-        libs: {
-          name: 'chunk-libs',
-          chunks: 'initial',
-          priority: -10,
-          reuseExistingChunk: false,
-          test: /node_modules\/(.*)\.js/
-        },
-        styles: {
-          name: 'chunk-styles',
-          test: /\.(scss|css)$/,
-          chunks: 'all',
-          minChunks: 1,
-          reuseExistingChunk: true,
-          enforce: true
-        }
-      }
-    }
-  },
-  extractCSS: true, /** 将css单独打包成一个文件，默认的是全部加载到有事业 **/
-</details>
-
-## 实践
-
-[文章](https://www.jianshu.com/p/54ad0d1d43e4)
-
-### webpack 官方示例
-``
-optimization: {
-splitChunks: {
-cacheGroups: {
-commons: {
-test: /[\\/]node_modules[\\/]/,
-// cacheGroupKey here is `commons` as the key of the cacheGroup
-name(module, chunks, cacheGroupKey) {
-const moduleFileName = module.identifier().split('/').reduceRight(item => item);
-const allChunksNames = chunks.map((item) => item.name).join('~');
-return `${cacheGroupKey}-${allChunksNames}-${moduleFileName}`;
-},
-chunks: 'all'
-}
-}
-}
-}
-``
-
-## browserslist
-
-例子	说明
-> 1%	全球超过1%人使用的浏览器
-> 5% in US	指定国家使用率覆盖
-> last 2 versions	所有浏览器兼容到最后两个版本根据CanIUse.com追踪的版本
-> Firefox ESR	火狐最新版本
-> Firefox > 20	指定浏览器的版本范围
-> not ie <=8	方向排除部分版本
-> Firefox 12.1	指定浏览器的兼容到指定版本
-> unreleased versions	所有浏览器的beta测试版本
-> unreleased Chrome versions	指定浏览器的测试版本
-> since 2013	2013年之后发布的所有版本
-
-> 筛选后查询,验证：npx browserslist 打印出所有浏览器版本支出情况
-
-[精品文章](https://www.jianshu.com/p/bd9cb7861b85)

@@ -63,12 +63,10 @@ export default {
 }
 ``
 
-## demo
-[参考](https://github.com/wmui/essay)
+<b><details><summary>look</summary></b>
 
-## 精品文章
 [plugins demo、路由鉴权](https://segmentfault.com/a/1190000012280812)
 
-<b><details><summary>demo</summary></b>
-demo demo
+[参考](https://github.com/wmui/essay)
+
 </details>
