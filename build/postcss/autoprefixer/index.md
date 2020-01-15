@@ -15,10 +15,24 @@ postcss: {
 },
 ```
 
-```javascript
-const autoprefixer=require("autoprefixer")
-postcss:[require('autoprefixer')({ browsers: ['last 10 Chrome versions', 'last 5 Firefox versions', 'Safari >= 6', 'ie> 8'] })]
-```
+### more
++ ```javascript
+  postcss: [
+    require('autoprefixer')({ browsers: ['last 10 Chrome versions', 'last 5 Firefox versions', 'Safari >= 6', 'ie> 8'] })
+  ],
+  ```
++ ```javascript
+  postcss: [ autoprefixer({ browsers: ['last 2 versions'] })
+  ```
++ ```javascript
+  postcss: [require('autoprefixer')({
+    overrideBrowserslist: ['last 2 versions']
+  })],
+  ```
++ ```javascript
+  const autoprefixer=require("autoprefixer")
+  postcss:[require('autoprefixer')({ browsers: ['last 10 Chrome versions', 'last 5 Firefox versions', 'Safari >= 6', 'ie> 8'] })]
+  ```
 
 | 例子       |  说明                   |
 |         :-|                      :-|
