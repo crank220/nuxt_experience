@@ -100,3 +100,7 @@ export default {
 
 ## 精品文章
 [plugins demo、路由鉴权](https://segmentfault.com/a/1190000012280812)
+
+## jquery => jQuery
+jQuery requires a window with a document
+jsdom and process.client
