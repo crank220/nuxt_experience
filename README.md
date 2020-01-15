@@ -37,38 +37,6 @@ postcss: {
   }
 },
 
-
-## babel
-
-### babel-polyfill 兼容 es6 ie9+
-
-poly.js
-import 'babel-polyfill'
-
-nuxt.config
-plugins: [
-  { src: '@/plugins/poly', ssr: true },
-]
-
-``.babelrc
-{
-  "presets": [
-    [
-      "env",
-      {
-        "modules": false,
-        "useBuiltIns": "entry"
-      }
-    ],
-    "stage-3"
-  ]
-}
-``
-
-## pm2
-pm2 start npm --name "bookstore-render" -- run start
-
-
 ## Postcss 插件
 
 ``json
@@ -100,7 +68,3 @@ export default {
 
 ## 精品文章
 [plugins demo、路由鉴权](https://segmentfault.com/a/1190000012280812)
-
-## jquery => jQuery
-jQuery requires a window with a document
-jsdom and process.client
