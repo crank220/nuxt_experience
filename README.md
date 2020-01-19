@@ -55,3 +55,5 @@ vue【nuxt【vue-router + vuex + vue-meta + axios + vue-loader + vue-server-rend
 [plugins demo、路由鉴权](https://segmentfault.com/a/1190000012280812)
 
 [参考](https://github.com/wmui/essay)
+
+[!!!](https://www.jianshu.com/p/840169ba92e6)
